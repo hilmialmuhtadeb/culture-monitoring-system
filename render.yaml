@@ -1,0 +1,61 @@
+services:
+  # =========================================================================
+  # 1. BACKEND API SERVICE (Laravel Docker)
+  # =========================================================================
+  - type: web
+    name: culture-monitoring-api
+    runtime: docker
+    rootDir: backend
+    plan: free
+    region: singapore
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: APP_NAME
+        value: "Culture Monitoring System"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        generateValue: true
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_SSLMODE
+        value: require
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: CACHE_STORE
+        value: array
+      - key: QUEUE_CONNECTION
+        value: sync
+
+  # =========================================================================
+  # 2. FRONTEND STATIC SITE (Vue 3 + Vite)
+  # =========================================================================
+  - type: web
+    name: culture-monitoring-web
+    runtime: static
+    rootDir: frontend
+    plan: free
+    region: singapore
+    buildCommand: npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false
