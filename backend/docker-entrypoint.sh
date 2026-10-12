@@ -17,8 +17,10 @@ php artisan storage:link || true
 echo "Running database migrations..."
 php artisan migrate --force
 
-echo "Running initial database seeders..."
-php artisan db:seed --force || true
+if [ "$RUN_SEEDERS" = "true" ]; then
+    echo "Running initial database seeders..."
+    php artisan db:seed --force || true
+fi
 
 echo "Starting PHP-FPM..."
 php-fpm -D

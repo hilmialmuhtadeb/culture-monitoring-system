@@ -25,8 +25,13 @@ git push -u origin main
    * `DB_DATABASE` (contoh: `neondb`)
    * `DB_USERNAME` (contoh: `neondb_owner`)
    * `DB_PASSWORD` (password project Neon Anda)
+   * `APP_URL` (format: `https://culture-monitoring-api.onrender.com`, URL publik backend service Anda)
    * `VITE_API_BASE_URL` (format: `https://culture-monitoring-api.onrender.com/api`)
 6. Klik **Apply**.
+
+> **Catatan Penting Build & Environment:**
+> - **`VITE_API_BASE_URL`**: Variabel ini di-inject pada saat *build-time* oleh Vite saat membuat bundle Static Site. Jika URL backend berubah atau baru ditentukan setelah deploy pertama, perbarui environment variable lalu pilih **"Clear build cache & deploy"** pada service Static Site agar frontend di-build ulang dengan URL baru.
+> - **`RUN_SEEDERS`**: Secara default diset ke `"true"` pada `render.yaml` agar database otomatis di-seed saat deployment pertama. Setelah deployment awal berhasil dan akun default dibuat, Anda dapat mengubah nilai `RUN_SEEDERS` menjadi `"false"` di tab Environment service `culture-monitoring-api` untuk mencegah seeder dijalankan ulang pada deployment berikutnya.
 
 ## Langkah 3: Verifikasi
 * Backend: Buka `https://culture-monitoring-api.onrender.com/up`. Pastikan muncul respons status OK.
